@@ -9,7 +9,7 @@ stages:
 maven:
   stage: deploy
   only:
-    - mindflow
+    - master
   tags:
     - jdk11
   script: mvn clean deploy
