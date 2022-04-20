@@ -1,0 +1,33 @@
+variables:
+  notify_dingding_token: '87b878ecd8671a25b2a37e681db0ff537c1b6c88ffe4f89365017bb2f4aef4f7'
+
+stages:
+  - deploy
+  - notify
+
+# deploy
+maven:
+  stage: deploy
+  only:
+    - mindflow
+  tags:
+    - jdk11
+  script: mvn clean deploy
+
+# notify
+success_notify:
+  stage: notify
+  when: on_success
+  only:
+    - tags
+  script: |
+    curl -X POST "https://oapi.dingtalk.com/robot/send?access_token=$notify_dingding_token" -H 'Content-Type: application/json' -H 'cache-control: no-cache' -d "{\"msgtype\": \"link\",\"link\": {\"title\":\"$CI_PROJECT_NAME 》$CI_COMMIT_REF_NAME 》# $CI_PIPELINE_ID\",\"text\": \"构建成功\",\"picUrl\": \"http://icons.iconarchive.com/icons/paomedia/small-n-flat/1024/sign-check-icon.png\",\"messageUrl\":\"$CI_PROJECT_URL/-/pipelines/$CI_PIPELINE_ID\"}}"
+
+
+fail_notify:
+  stage: notify
+  when: on_failure
+  only:
+    - tags
+  script: |
+    curl -X POST "https://oapi.dingtalk.com/robot/send?access_token=$notify_dingding_token" -H 'Content-Type: application/json' -H 'cache-control: no-cache' -d "{\"msgtype\": \"link\",\"link\": {\"title\":\"$CI_PROJECT_NAME 》$CI_COMMIT_REF_NAME 》# $CI_PIPELINE_ID\",\"text\": \"构建失败\",\"picUrl\": \"http://www.iconsdb.com/icons/preview/soylent-red/x-mark-3-xxl.png\",\"messageUrl\":\"$CI_PROJECT_URL/-/pipelines/$CI_PIPELINE_ID\"}}"

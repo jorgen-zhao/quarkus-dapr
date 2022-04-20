@@ -85,4 +85,31 @@
             </modules>
         </profile>
     </profiles>
+
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>mindflow-mixed</id>
+            <url>https://nexus.mindflow.com.cn/repository/maven-mindflow-mixed/</url>
+        </snapshotRepository>
+        <repository>
+            <id>mindflow-mixed</id>
+            <url>https://nexus.mindflow.com.cn/repository/maven-mindflow-mixed/</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun-proxy</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <repository>
+            <id>maven-mindflow-public</id>
+            <name>maven-mindflow-public</name>
+            <url>https://nexus.mindflow.com.cn/repository/maven-mindflow-public/</url>
+        </repository>
+    </repositories>
+
 </project>
