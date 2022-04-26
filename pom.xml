@@ -16,14 +16,16 @@
     <modules>
         <module>deployment</module>
         <module>runtime</module>
+        <module>integration-tests</module>
+        <module>demo</module>
     </modules>
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <quarkus.version>2.8.0.Final</quarkus.version>
-        <dapr.version>1.4.0</dapr.version>
+        <quarkus.version>2.8.1.Final</quarkus.version>
+        <dapr.version>1.5.0</dapr.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -81,6 +83,7 @@
                 </property>
             </activation>
             <modules>
+                <module>demo</module>
                 <module>integration-tests</module>
             </modules>
         </profile>

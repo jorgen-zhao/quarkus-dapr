@@ -1,9 +1,18 @@
 package io.quarkiverse.dapr.deployment;
 
+import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
+import org.jboss.jandex.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.dapr.Topic;
 import io.dapr.actors.runtime.ActorRuntimeConfig;
+import io.dapr.client.domain.CloudEvent;
 import io.quarkiverse.dapr.core.DaprTopicSubscription;
 import io.quarkiverse.dapr.endpoint.actor.ActorDeactivateHandler;
 import io.quarkiverse.dapr.endpoint.actor.ActorInvokeMethodHandler;
@@ -13,6 +22,7 @@ import io.quarkiverse.dapr.endpoint.dapr.AbstractDaprHandler;
 import io.quarkiverse.dapr.endpoint.dapr.DaprConfigHandler;
 import io.quarkiverse.dapr.endpoint.dapr.DaprSubscribeHandler;
 import io.quarkiverse.dapr.jackson.DaprJacksonModuleCustomizer;
+import io.quarkiverse.dapr.resteasy.CloudEventReader;
 import io.quarkiverse.dapr.runtime.DaprProducer;
 import io.quarkiverse.dapr.runtime.DaprRuntimeRecorder;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
@@ -23,14 +33,9 @@ import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.resteasy.common.spi.ResteasyJaxrsProviderBuildItem;
 import io.quarkus.vertx.http.deployment.NonApplicationRootPathBuildItem;
 import io.quarkus.vertx.http.deployment.RouteBuildItem;
-import org.apache.commons.lang3.StringUtils;
-import org.jboss.jandex.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 /**
  * DaprProcessor
@@ -58,7 +63,7 @@ class DaprProcessor {
 
     @BuildStep
     void addDaprEndpoint(BuildProducer<RouteBuildItem> routeBuildItemBuildProducer,
-                         NonApplicationRootPathBuildItem nonApplicationRootPathBuildItem) {
+            NonApplicationRootPathBuildItem nonApplicationRootPathBuildItem) {
         routeBuildItemBuildProducer.produce(getDaprRouteBuildItem(nonApplicationRootPathBuildItem, new DaprConfigHandler()));
 
         routeBuildItemBuildProducer.produce(getDaprRouteBuildItem(nonApplicationRootPathBuildItem, new DaprSubscribeHandler()));
@@ -66,7 +71,7 @@ class DaprProcessor {
 
     @BuildStep
     void addActorEndpoint(BuildProducer<RouteBuildItem> routeBuildItemBuildProducer,
-                          NonApplicationRootPathBuildItem nonApplicationRootPathBuildItem) {
+            NonApplicationRootPathBuildItem nonApplicationRootPathBuildItem) {
         routeBuildItemBuildProducer
                 .produce(getDaprRouteBuildItem(nonApplicationRootPathBuildItem, new ActorDeactivateHandler()));
         routeBuildItemBuildProducer
@@ -75,13 +80,17 @@ class DaprProcessor {
                 .produce(getDaprRouteBuildItem(nonApplicationRootPathBuildItem, new ActorInvokeTimerHandler()));
         routeBuildItemBuildProducer
                 .produce(getDaprRouteBuildItem(nonApplicationRootPathBuildItem, new ActorInvokeReminderHandler()));
-
     }
 
     @BuildStep
     void additionalBeans(BuildProducer<AdditionalBeanBuildItem> additionalBeans) {
         additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(DaprProducer.class));
         additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(DaprJacksonModuleCustomizer.class));
+    }
+
+    @BuildStep
+    void vertxProviders(BuildProducer<ResteasyJaxrsProviderBuildItem> providers) {
+        providers.produce(new ResteasyJaxrsProviderBuildItem(CloudEventReader.class.getName()));
     }
 
     @BuildStep
@@ -161,7 +170,7 @@ class DaprProcessor {
     }
 
     private RouteBuildItem getDaprRouteBuildItem(NonApplicationRootPathBuildItem nonApplicationRootPathBuildItem,
-                                                 AbstractDaprHandler handler) {
+            AbstractDaprHandler handler) {
         return nonApplicationRootPathBuildItem.routeBuilder()
                 .nestedRoute(handler.baseRoute(), handler.subRoute())
                 .handler(handler)
@@ -173,6 +182,7 @@ class DaprProcessor {
     void reflectiveClasses(BuildProducer<ReflectiveClassBuildItem> reflectiveClassBuildProducer) {
         reflectiveClassBuildProducer.produce(new ReflectiveClassBuildItem(true, true,
                 DaprTopicSubscription.class,
-                ActorRuntimeConfig.class));
+                ActorRuntimeConfig.class,
+                CloudEvent.class));
     }
 }
