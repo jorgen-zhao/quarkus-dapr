@@ -11,7 +11,7 @@ maven:
   only:
     - master
   tags:
-    - jdk11
+    - native
   script: mvn clean deploy
 
 # notify
