@@ -5,9 +5,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * ActorDeactivateHandler
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public class ActorDeactivateHandler extends AbstractDaprActorHandler {
     @Override
@@ -18,8 +15,7 @@ public class ActorDeactivateHandler extends AbstractDaprActorHandler {
     /**
      * Handles API to deactivate an actor.
      *
-     * @param type Actor type.
-     * @param id Actor Id.
+     * @param event
      * @return Void.
      */
     @Override

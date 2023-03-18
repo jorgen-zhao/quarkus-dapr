@@ -6,9 +6,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * AbstractDaprHandler
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public abstract class AbstractDaprHandler implements Handler<RoutingContext> {
 

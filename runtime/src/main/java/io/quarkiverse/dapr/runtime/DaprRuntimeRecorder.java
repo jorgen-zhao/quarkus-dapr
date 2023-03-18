@@ -7,9 +7,6 @@ import io.quarkus.runtime.annotations.Recorder;
 
 /**
  * DaprRuntimeRecorder
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 @Recorder
 public class DaprRuntimeRecorder {

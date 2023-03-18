@@ -5,9 +5,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * ActorInvokeReminderHandler
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public class ActorInvokeReminderHandler extends AbstractDaprActorHandler {
     @Override
@@ -18,10 +15,7 @@ public class ActorInvokeReminderHandler extends AbstractDaprActorHandler {
     /**
      * Handles API to trigger an actor's reminder.
      *
-     * @param type Actor type.
-     * @param id Actor Id.
-     * @param reminder Actor reminder's name.
-     * @param body Raw request's body.
+     * @param event RoutingContext event
      * @return Void.
      */
     @Override

@@ -16,9 +16,6 @@ import io.quarkus.runtime.Startup;
 
 /**
  * DaprProducer
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 @ApplicationScoped
 public class DaprProducer {

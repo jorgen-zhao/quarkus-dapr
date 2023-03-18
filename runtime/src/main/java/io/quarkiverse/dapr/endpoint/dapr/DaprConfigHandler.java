@@ -7,9 +7,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * DaprConfigHandler
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public class DaprConfigHandler extends AbstractDaprHandler {
 

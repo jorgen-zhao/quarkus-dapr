@@ -10,9 +10,6 @@ import io.dapr.utils.TypeRef;
 
 /**
  * JacksonDaprObjectSerializer
- *
- * @author naah69
- * @date 2022/4/19 12:52 PM
  */
 public class JacksonDaprObjectSerializer implements DaprObjectSerializer {
 

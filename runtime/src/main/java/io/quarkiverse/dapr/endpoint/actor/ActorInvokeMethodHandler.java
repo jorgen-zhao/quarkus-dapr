@@ -5,9 +5,6 @@ import io.vertx.ext.web.RoutingContext;
 
 /**
  * ActorInvokeMethodHandler
- *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public class ActorInvokeMethodHandler extends AbstractDaprActorHandler {
     @Override
@@ -18,10 +15,7 @@ public class ActorInvokeMethodHandler extends AbstractDaprActorHandler {
     /**
      * Handles API to invoke an actor's method.
      *
-     * @param type Actor type.
-     * @param id Actor Id.
-     * @param method Actor method.
-     * @param body Raw request body.
+     * @param event RoutingContext event.
      * @return Raw response body.
      */
     @Override

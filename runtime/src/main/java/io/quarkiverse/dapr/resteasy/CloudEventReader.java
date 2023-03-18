@@ -22,9 +22,6 @@ import io.dapr.client.domain.CloudEvent;
 
 /**
  * CloudEventReader
- *
- * @author naah69
- * @date 2022/4/25 10:04 AM
  */
 @Provider
 @Produces(CloudEvent.CONTENT_TYPE)

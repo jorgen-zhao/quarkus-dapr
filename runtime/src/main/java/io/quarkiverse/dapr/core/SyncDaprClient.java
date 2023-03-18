@@ -11,8 +11,6 @@ import io.dapr.utils.TypeRef;
 /**
  * SyncDaprClient
  *
- * @author naah69
- * @date 22022-04-01 17:42:02
  */
 public class SyncDaprClient implements AutoCloseable {
     private final DaprClient daprClient;
